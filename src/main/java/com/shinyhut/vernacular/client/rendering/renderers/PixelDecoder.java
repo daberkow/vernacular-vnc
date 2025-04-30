@@ -13,18 +13,41 @@ public class PixelDecoder {
     private static final ColorMapEntry BLACK = new ColorMapEntry(0, 0, 0);
 
     private final Map<Long, ColorMapEntry> colorMap;
+    private final boolean isBigEndian;
 
-    public PixelDecoder(Map<Long, ColorMapEntry> colorMap) {
+    /**
+     * New Pixel decoder to read data offline from stream
+     *
+     * @param colorMap colorMap to match to
+     * @param isBigEndian if the data streaming in is big endian vs little for processing
+     */
+    public PixelDecoder(Map<Long, ColorMapEntry> colorMap, boolean isBigEndian) {
         this.colorMap = colorMap;
+        this.isBigEndian = isBigEndian;
     }
 
+    /**
+     * Each pixels data comes in here, and is converted to be ready to go to Java AWT
+     *
+     * @param in bit stream in
+     * @param pixelFormat format we are converting to
+     * @return return a Java Pixel
+     * @throws IOException exception if reading a byte array fails
+     */
     public Pixel decode(InputStream in, PixelFormat pixelFormat) throws IOException {
         int bytesToRead = pixelFormat.getBytesPerPixel();
         long value = 0L;
 
-        for (int i = 0; i < bytesToRead; i++) {
-            value <<= 8;
-            value |= in.read();
+        if (isBigEndian) {
+            for (int i = 0; i < bytesToRead; i++) {
+                value <<= 8;
+                value |= in.read();
+            }
+        } else {
+            // Read bytes in little-endian order
+            for (int i = 0; i < bytesToRead; i++) {
+                value |= ((long) in.read()) << (8 * i);
+            }
         }
 
         int red;

@@ -43,7 +43,7 @@ public class Initializer {
         PixelFormat pixelFormat = new PixelFormat(
                 colorDepth.getBitsPerPixel(),
                 colorDepth.getDepth(),
-                true,
+                serverInit.getPixelFormat().isBigEndian(),
                 colorDepth.isTrueColor(),
                 colorDepth.getRedMax(),
                 colorDepth.getGreenMax(),

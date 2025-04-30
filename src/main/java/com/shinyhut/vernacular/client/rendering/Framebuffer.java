@@ -33,7 +33,7 @@ public class Framebuffer {
     private BufferedImage frame;
 
     public Framebuffer(VncSession session) {
-        PixelDecoder pixelDecoder = new PixelDecoder(colorMap);
+        PixelDecoder pixelDecoder = new PixelDecoder(colorMap, session.getPixelFormat().isBigEndian());
         RawRenderer rawRenderer = new RawRenderer(pixelDecoder, session.getPixelFormat());
         renderers.put(RAW, rawRenderer);
         renderers.put(COPYRECT, new CopyRectRenderer());
