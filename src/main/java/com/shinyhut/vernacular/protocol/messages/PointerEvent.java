@@ -29,12 +29,6 @@ public class PointerEvent implements Encodable {
         byte[] bytes = baos.toByteArray();
         out.write(bytes);   // Send all bytes at once
         out.flush();        // Ensure the data is sent immediately
-
-//        DataOutput dataOutput = new DataOutputStream(out);
-//        dataOutput.write(0x05);
-//        dataOutput.write(buttonMask());
-//        dataOutput.writeShort(x);
-//        dataOutput.writeShort(y);
     }
 
     private byte buttonMask() {

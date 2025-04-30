@@ -28,9 +28,5 @@ public class SetPixelFormat implements Encodable {
         byte[] bytes = baos.toByteArray();
         out.write(bytes);   // Send all bytes at once
         out.flush();        // Ensure the data is sent immediately
-
-//        out.write(0x00);
-//        out.write(new byte[3]);
-//        pixelFormat.encode(out);
     }
 }

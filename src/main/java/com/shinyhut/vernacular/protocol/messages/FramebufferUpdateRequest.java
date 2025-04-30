@@ -34,13 +34,5 @@ public class FramebufferUpdateRequest implements Encodable {
         byte[] bytes = baos.toByteArray();
         out.write(bytes);   // Send all bytes at once
         out.flush();        // Ensure the data is sent immediately
-
-//        DataOutput dataOutput = new DataOutputStream(out);
-//        dataOutput.writeByte(0x03);
-//        dataOutput.writeBoolean(incremental);
-//        dataOutput.writeShort(x);
-//        dataOutput.writeShort(y);
-//        dataOutput.writeShort(width);
-//        dataOutput.writeShort(height);
     }
 }
