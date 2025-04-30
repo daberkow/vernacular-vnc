@@ -1,9 +1,6 @@
 package com.shinyhut.vernacular.protocol.messages;
 
-import java.io.DataOutput;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 
 public class KeyEvent implements Encodable {
 
@@ -17,10 +14,24 @@ public class KeyEvent implements Encodable {
 
     @Override
     public void encode(OutputStream out) throws IOException {
-        DataOutput dataOutput = new DataOutputStream(out);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream dataOutput = new DataOutputStream(baos);
+
         dataOutput.writeByte(0x04);
         dataOutput.writeBoolean(pressed);
         dataOutput.write(new byte[]{0x00, 0x00});
         dataOutput.writeInt(keysym);
+        dataOutput.flush(); // Ensure all data is written to the ByteArrayOutputStream
+
+        byte[] bytes = baos.toByteArray();
+        out.write(bytes);   // Send all bytes at once
+        out.flush();        // Ensure the data is sent immediately
+
+
+//        DataOutput dataOutput = new DataOutputStream(out);
+//        dataOutput.writeByte(0x04);
+//        dataOutput.writeBoolean(pressed);
+//        dataOutput.write(new byte[]{0x00, 0x00});
+//        dataOutput.writeInt(keysym);
     }
 }

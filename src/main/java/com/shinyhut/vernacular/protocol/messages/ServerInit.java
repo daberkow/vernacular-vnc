@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class ServerInit {
 
@@ -43,7 +44,7 @@ public class ServerInit {
         int nameLength = dataInput.readInt();
         byte[] nameBytes = new byte[nameLength];
         dataInput.readFully(nameBytes);
-        String name = new String(nameBytes, Charset.forName("US-ASCII"));
+        String name = new String(nameBytes, StandardCharsets.US_ASCII);
         return new ServerInit(framebufferWidth, framebufferHeight, pixelFormat, name);
     }
 }

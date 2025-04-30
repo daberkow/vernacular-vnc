@@ -1,5 +1,6 @@
 package com.shinyhut.vernacular.protocol.messages;
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -21,13 +22,20 @@ public class SetEncodings implements Encodable {
 
     @Override
     public void encode(OutputStream out) throws IOException {
-        DataOutputStream dataOutput = new DataOutputStream(out);
+        // DataOutputStream is acting weird and breaking into different packets
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream dataOutput = new DataOutputStream(baos);
+
         dataOutput.writeByte(0x02);
         dataOutput.writeByte(0x00);
         dataOutput.writeShort(encodings.size());
         for (Encoding encoding : encodings) {
             dataOutput.writeInt(encoding.getCode());
         }
+        dataOutput.flush(); // Ensure all data is written to the ByteArrayOutputStream
 
+        byte[] bytes = baos.toByteArray();
+        out.write(bytes);   // Send all bytes at once
+        out.flush();        // Ensure the data is sent immediately
     }
 }

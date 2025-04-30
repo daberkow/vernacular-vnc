@@ -5,6 +5,7 @@ import com.shinyhut.vernacular.client.exceptions.VncException;
 
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,7 +34,7 @@ public class ProtocolVersion implements Encodable {
 
     @Override
     public void encode(OutputStream out) throws IOException {
-        out.write(format("RFB %03d.%03d\n", major, minor).getBytes(Charset.forName("US-ASCII")));
+        out.write(format("RFB %03d.%03d\n", major, minor).getBytes(StandardCharsets.US_ASCII));
     }
 
     public boolean equals(int major, int minor) {
